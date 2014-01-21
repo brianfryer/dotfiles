@@ -13,6 +13,9 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias devl="cd ~/development"
 alias g="git"
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit -m"
 
 # Open in Sublime
 alias subl='open -a "Sublime Text 2"'
