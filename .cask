@@ -1,0 +1,29 @@
+# Install brew cask
+brew tap phinze/cask
+brew install brew-cask
+
+function installcask() {
+  brew cask install "${@}" 2> /dev/null
+}
+
+# Install dev tools
+installcask vagrant
+installcask virtualbox
+installcask sublime-text
+installcask iterm2
+installcask filezilla
+
+# Install browsers & utilities
+installcask google-chrome
+installcask google-hangouts
+installcask firefox
+installcask dashlane
+
+# Install Mac apps & utilities
+installcask dropbox
+installcask hipchat
+installcask spotify
+installcask totalfinder
+installcask bartender
+installcask divvy
+installcask flux
