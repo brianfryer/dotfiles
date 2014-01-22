@@ -12,6 +12,7 @@ installcask virtualbox
 installcask sublime-text
 installcask iterm2
 installcask filezilla
+installcask adobe-air
 
 # Install browsers & utilities
 installcask google-chrome
