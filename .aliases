@@ -13,6 +13,7 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias devl="cd ~/development"
 alias g="git"
+alias ga="git add . -A"
 alias gs="git status"
 alias gc="git commit -m"
 
