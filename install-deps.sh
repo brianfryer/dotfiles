@@ -8,8 +8,11 @@ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 
 # homebrew
 # https://brew.sh
-# ruby <(curl -fsSkL raw.github.com/mxcl/homebrew/go)
 ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+
+# resty
+# https://github.com/micha/resty
+curl -L http://github.com/micha/resty/raw/master/resty > resty
 
 # z
 # https://github.com/rupa/z
