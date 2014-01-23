@@ -14,7 +14,7 @@ alias dt="cd ~/Desktop"
 alias devl="cd ~/development"
 alias g="git"
 alias ga="git add . -A"
-alias gs="git status"
+alias gs="git status -s"
 alias gc="git commit -m"
 
 # Open in Sublime
