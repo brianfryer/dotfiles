@@ -17,6 +17,7 @@ alias g="git"
 alias ga="git add . -A"
 alias gs="git status -s"
 alias gc="git commit -m"
+alias gbl="git branch --list -a"
 
 # Open in Sublime
 alias subl='open -a "Sublime Text 2"'
