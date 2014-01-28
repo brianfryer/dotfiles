@@ -9,7 +9,7 @@
   a = add
   s = status -s
   c = commit -m
-  bl = branch --list -a
+  bl = branch --list -a -v -v
 [color]
   ui = always
 [core]
