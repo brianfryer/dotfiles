@@ -13,7 +13,14 @@ alias d="cd ~/Documents/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias devl="cd ~/development"
+
+# git Shortcuts
 alias g="git"
+alias ga="git add . -A"
+alias gbl="git branch --list -a -v -v"
+alias gc="git commit -m"
+alias gp="git push"
+alias gs="git status -s"
 
 # Open in Sublime
 alias subl='open -a "Sublime Text 2"'
