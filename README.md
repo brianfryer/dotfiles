@@ -1,6 +1,7 @@
 For installation on a fresh machine...
 ```
-curl -L https://github.com/brianfryer/dotfiles/archive/master.zip | unzip -a
+curl -u 'brianfryer' -L -o dotfiles.zip https://api.github.com/repos/brianfryer/dotfiles/tarball
+# unzip the files then continue
 ./bootstrap.sh && cd ~
 ./.brew
 ./install-deps.sh
