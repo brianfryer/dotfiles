@@ -14,11 +14,11 @@ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 # https://github.com/micha/resty
 curl -L http://github.com/micha/resty/raw/master/resty > resty
 
+# for the c alias (syntax highlighted cat)
+sudo easy_install Pygments
+
 # z
 # https://github.com/rupa/z
 cd ~/dotfiles/z
 git clone https://github.com/rupa/z.git
 chmod +x ~/dotfiles/z/z.sh
-
-# for the c alias (syntax highlighted cat)
-sudo easy_install Pygments

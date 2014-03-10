@@ -26,7 +26,7 @@ brew tap josegonzalez/homebrew-php
 
 # Install everything else
 brew install ack
-brew install git
+# brew install git # this is installed via `install-deps.sh`
 brew install imagemagick
 brew install rename
 brew install tree
