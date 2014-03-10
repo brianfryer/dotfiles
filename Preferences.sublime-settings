@@ -1,0 +1,20 @@
+{
+  "bold_folder_labels": true,
+  "color_scheme": "Packages/Base16/base16-monokai.dark.tmTheme",
+  "fade_fold_buttons": false,
+  "font_face": "Menlo",
+  "font_size": 11,
+  "highlight_line": true,
+  "highlight_modified_tabs": true,
+  "ignored_packages":
+  [
+    "Vintage"
+  ],
+  "line_padding_bottom": 3,
+  "line_padding_top": 3,
+  "scroll_past_end": true,
+  "tab_size": 2,
+  "translate_tabs_to_spaces": true,
+  "wide_caret": true,
+  "word_wrap": true
+}
