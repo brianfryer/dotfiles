@@ -10,8 +10,8 @@ unset file
 . ~/z/z.sh
 
 # init rvm
-# source ~/.rvm/scripts/rvm
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+source ~/.rvm/scripts/rvm
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # init nvm
 source ~/.nvm/nvm.sh
