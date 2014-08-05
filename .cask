@@ -1,5 +1,6 @@
 # Install brew cask
 brew tap phinze/cask
+brew tap caskroom/versions
 brew install brew-cask
 
 function installcask() {
@@ -7,15 +8,19 @@ function installcask() {
 }
 
 # Install dev tools
-installcask vagrant
-installcask virtualbox
-installcask sublime-text
+#installcask vagrant
+#installcask virtualbox
+#installcask sublime-text
+installcask sublime-text3
+#installcask atom
 installcask iterm2
 installcask filezilla
 installcask adobe-air
+installcask github
 
 # Install browsers & utilities
 installcask google-chrome
+installcask google-chrome-canary
 installcask google-hangouts
 installcask firefox
 installcask dashlane
@@ -32,6 +37,6 @@ installcask cinch
 installcask licecap
 installcask kindle
 installcask shortcat
-installcask screenhero
-installcask keka
+#installcask screenhero
+#installcask keka
 installcask vlc

@@ -25,7 +25,7 @@ alias gp="git push"
 alias gs="git status -s"
 
 # Open in Sublime
-alias subl='open -a "Sublime Text 2"'
+alias subl='open -a "Sublime Text"'
 
 # `cat` with beautiful colors. requires Pygments installed.
 alias c='pygmentize -O style=monokai -f console256 -g'
