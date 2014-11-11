@@ -9,6 +9,11 @@ curl -L https://get.rvm.io | bash -s stable --ruby
 # https://github.com/creationix/nvm
 curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 
+# Install node stuffs
+npm install -g gulp
+npm install -g divshot-cli
+npm install -g localtunnel
+
 # Install homebrew
 # https://brew.sh
 ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"

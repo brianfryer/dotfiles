@@ -40,3 +40,7 @@ installcask shortcat
 #installcask screenhero
 #installcask keka
 installcask vlc
+
+# Install GAMEZ
+installcask snes9x
+installcask sixtyforce
