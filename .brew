@@ -31,7 +31,6 @@ brew install imagemagick
 brew install rename
 brew install tree
 brew install gcc42
-brew install haproxy
 
 # Remove outdated versions from the cellar
 brew cleanup
