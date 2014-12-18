@@ -8,19 +8,17 @@ function installcask() {
 }
 
 # Install dev tools
-#installcask vagrant
-#installcask virtualbox
-#installcask sublime-text
+installcask vagrant
+installcask virtualbox
 installcask sublime-text3
-#installcask atom
 installcask iterm2
 installcask filezilla
 installcask adobe-air
 installcask github
+installcask sequel-pro
 
 # Install browsers & utilities
 installcask google-chrome
-installcask google-chrome-canary
 installcask google-hangouts
 installcask firefox
 installcask dashlane
@@ -37,9 +35,8 @@ installcask cinch
 installcask licecap
 installcask kindle
 installcask shortcat
-#installcask screenhero
-#installcask keka
 installcask vlc
+installcask tribler
 
 # Install GAMEZ
 installcask snes9x

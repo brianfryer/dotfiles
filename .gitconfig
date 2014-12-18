@@ -37,6 +37,9 @@
 
 [user]
   name = Brian Fryer
-  email = brian.fryer@evsr.com
+  email = brianfryer@gmail.com
 [push]
   default = simple
+[github]
+  user = brianfryer
+  token = token

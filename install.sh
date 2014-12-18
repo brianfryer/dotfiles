@@ -13,6 +13,7 @@ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 npm install -g gulp
 npm install -g divshot-cli
 npm install -g localtunnel
+npm install -g iectrl
 
 # Install homebrew
 # https://brew.sh

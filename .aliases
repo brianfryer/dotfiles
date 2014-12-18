@@ -1,3 +1,6 @@
+# launch IE8
+alias ie8='iectrl start "IE8 - WinXP"'
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias cd..="cd .."
@@ -164,3 +167,6 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
+
+# Show all the open ports
+alias openports="lsof -i -P | grep LISTEN"
