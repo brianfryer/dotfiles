@@ -14,8 +14,7 @@ installcask sublime-text3
 installcask iterm2
 installcask filezilla
 installcask adobe-air
-installcask github
-installcask sequel-pro
+installcask alfred
 
 # Install browsers & utilities
 installcask google-chrome
@@ -25,6 +24,7 @@ installcask dashlane
 
 # Install Mac apps & utilities
 installcask dropbox
+installcask adobe-creative-cloud
 installcask hipchat
 installcask spotify
 installcask totalfinder
