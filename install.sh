@@ -10,6 +10,7 @@ curl -L https://get.rvm.io | bash -s stable --ruby
 curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 
 # Install node stuffs
+npm install -g bower
 npm install -g gulp
 npm install -g divshot-cli
 npm install -g localtunnel
