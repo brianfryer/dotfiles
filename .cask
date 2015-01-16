@@ -37,6 +37,7 @@ installcask kindle
 installcask shortcat
 installcask vlc
 installcask tribler
+intallcask sonos
 
 # Install GAMEZ
 installcask snes9x
