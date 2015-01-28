@@ -15,6 +15,7 @@ installcask iterm2
 installcask filezilla
 installcask adobe-air
 installcask alfred
+installcask quicksilver
 
 # Install browsers & utilities
 installcask google-chrome
