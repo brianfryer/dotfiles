@@ -27,6 +27,7 @@ installcask dashlane
 installcask dropbox
 installcask adobe-creative-cloud
 installcask hipchat
+installcask slack
 installcask spotify
 installcask totalfinder
 installcask bartender
