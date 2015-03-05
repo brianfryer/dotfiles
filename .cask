@@ -39,7 +39,8 @@ installcask kindle
 installcask shortcat
 installcask vlc
 installcask tribler
-intallcask sonos
+installcask sonos
+installcask homebrew-fonts
 
 # Install GAMEZ
 installcask snes9x
