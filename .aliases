@@ -11,11 +11,8 @@ alias ll="ls -l"
 # git shortcuts
 alias g="git"
 alias ga="git add . -A"
-<<<<<<< HEAD
 alias gbc="git checkout -b"
 alias gcb="git checkout -b"
-=======
->>>>>>> 50eb085ab888cfd7fad687fd917aa50cd9d208ad
 alias gbl="git branch --list -a -v -v"
 alias gc="git commit -m"
 alias gp="git push"

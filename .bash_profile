@@ -6,20 +6,12 @@ for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
 done
 unset file
 
-<<<<<<< HEAD
-# init z
-# https://github.com/rupa/z
-=======
 # init z   https://github.com/rupa/z
->>>>>>> 50eb085ab888cfd7fad687fd917aa50cd9d208ad
 . ~/z/z.sh
 
 # init rvm
 source ~/.rvm/scripts/rvm
-<<<<<<< HEAD
-=======
 #PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
->>>>>>> 50eb085ab888cfd7fad687fd917aa50cd9d208ad
 
 # init nvm
 source ~/.nvm/nvm.sh
