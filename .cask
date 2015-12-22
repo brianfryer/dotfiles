@@ -14,13 +14,8 @@ installcask sublime-text3
 installcask iterm2
 installcask filezilla
 installcask adobe-air
-<<<<<<< HEAD
 installcask java
 installcask android-studio
-=======
-installcask alfred
-installcask quicksilver
->>>>>>> 50eb085ab888cfd7fad687fd917aa50cd9d208ad
 
 # Install browsers & utilities
 installcask google-chrome
@@ -31,31 +26,14 @@ installcask dashlane
 # Install Mac apps & utilities
 installcask dropbox
 installcask adobe-creative-cloud
-<<<<<<< HEAD
-=======
-installcask hipchat
->>>>>>> 50eb085ab888cfd7fad687fd917aa50cd9d208ad
 installcask slack
 installcask spotify
 installcask totalfinder
 installcask bartender
 installcask divvy
 installcask sizeup
-<<<<<<< HEAD
 installcask licecap
 installcask vlc
 installcask sonos
-=======
-installcask cinch
 installcask licecap
-installcask kindle
-installcask shortcat
-installcask vlc
-installcask tribler
-installcask sonos
 installcask homebrew-fonts
-
-# Install GAMEZ
-installcask snes9x
-installcask sixtyforce
->>>>>>> 50eb085ab888cfd7fad687fd917aa50cd9d208ad
