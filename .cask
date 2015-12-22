@@ -1,0 +1,37 @@
+# Install brew cask
+brew tap phinze/cask
+brew tap caskroom/versions
+brew install brew-cask
+
+function installcask() {
+  brew cask install "${@}" 2> /dev/null
+}
+
+# Install dev tools
+installcask vagrant
+installcask virtualbox
+installcask sublime-text3
+installcask iterm2
+installcask filezilla
+installcask adobe-air
+installcask java
+installcask android-studio
+
+# Install browsers & utilities
+installcask google-chrome
+installcask google-hangouts
+installcask firefox
+installcask dashlane
+
+# Install Mac apps & utilities
+installcask dropbox
+installcask adobe-creative-cloud
+installcask slack
+installcask spotify
+installcask totalfinder
+installcask bartender
+installcask divvy
+installcask sizeup
+installcask licecap
+installcask vlc
+installcask sonos
