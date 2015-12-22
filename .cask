@@ -15,7 +15,6 @@ installcask iterm2
 installcask filezilla
 installcask adobe-air
 installcask java
-installcask android-studio
 
 # Install browsers & utilities
 installcask google-chrome
