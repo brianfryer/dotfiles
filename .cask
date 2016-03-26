@@ -25,6 +25,7 @@ installcask dashlane
 # Install Mac apps & utilities
 installcask dropbox
 installcask adobe-creative-cloud
+installcask google-nik-collection
 installcask slack
 installcask spotify
 installcask totalfinder

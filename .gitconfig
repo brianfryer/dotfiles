@@ -39,7 +39,6 @@
   name = Brian Fryer
   email = brianfryer@gmail.com
 [push]
-<<<<<<< HEAD
   default = current
 [github]
   user = brianfryer
@@ -50,9 +49,4 @@
   required = true
 [credential]
   helper = osxkeychain
-=======
   default = simple
-[github]
-  user = brianfryer
-  token = token
->>>>>>> 50eb085ab888cfd7fad687fd917aa50cd9d208ad

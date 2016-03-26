@@ -15,7 +15,7 @@ source ~/.rvm/scripts/rvm
 
 # init nvm
 source ~/.nvm/nvm.sh
-nvm use 0.12
+nvm use 4.1.2
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
