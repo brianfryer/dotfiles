@@ -16,7 +16,6 @@ brew install gnu-sed --default-names # GNU `sed`, overwriting the built-in `sed`
 brew install bash
 brew tap homebrew/versions
 brew install bash-completion2
-
 brew install homebrew/completions/brew-cask-completion
 
 # generic colouriser  http://kassiopeia.juls.savba.sk/~garabik/software/grc/
@@ -51,7 +50,6 @@ brew install fzf
 
 brew install git
 brew install imagemagick --with-webp
-brew install node # This installs `npm` too using the recommended installation method
 brew install pv
 brew install rename
 brew install tree

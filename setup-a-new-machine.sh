@@ -104,6 +104,7 @@ if ! xcode-select --print-path &> /dev/null; then
     print_result $? 'Agree with the XCode Command Line Tools licence'
 
 fi
+
 ###
 ##############################################################################################################
 
@@ -125,7 +126,6 @@ export PATH=$HOME/.homebrew/bin:$HOME/.homebrew/sbin:$PATH
 
 
 
-
 ##############################################################################################################
 ### install of common things
 ###
@@ -134,23 +134,26 @@ export PATH=$HOME/.homebrew/bin:$HOME/.homebrew/sbin:$PATH
 # the `push` command which copies the github compare URL to my clipboard is heaven
 bash < <( curl https://raw.github.com/jamiew/git-friendly/master/install.sh)
 
+# Install rvm (https://rvm.io)
+curl -L https://get.rvm.io | bash -s stable --ruby
+# Install bundler (https://bundler.io)
+gem install bundler
 
+# Install nvm (https://github.com/creationix/nvm)
+curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+# Install node stuffs
+npm install -g bower cordova firebase gulp ionic phantomjs-prebuilt
 # Type `git open` to open the GitHub page or website for a repository.
 npm install -g git-open
-# trash as the safe `rm` alternative
-npm install --global trash-cli
-
 
 # github.com/rupa/z   - oh how i love you
 git clone https://github.com/rupa/z.git ~/code/z
 # consider reusing your current .z file if possible. it's painful to rebuild :)
 # z is hooked up in .bash_profile
 
-
 # github.com/thebitguru/play-button-itunes-patch
 # disable itunes opening on media keys
 git clone https://github.com/thebitguru/play-button-itunes-patch ~/code/play-button-itunes-patch
-
 
 # my magic photobooth symlink -> dropbox. I love it.
 #    + first move Photo Booth folder out of Pictures
@@ -159,10 +162,8 @@ git clone https://github.com/thebitguru/play-button-itunes-patch ~/code/play-but
 #   * Now… you can record photobooth videos quickly and they upload to dropbox DURING RECORDING
 #   * then you grab public URL and send off your video message in a heartbeat.
 
-
 # for the c alias (syntax highlighted cat)
 sudo easy_install Pygments
-
 
 # change to bash 4 (installed by homebrew)
 BASHPATH=$(brew --prefix)/bin/bash
@@ -172,14 +173,11 @@ chsh -s $BASHPATH # will set for current user only.
 echo $BASH_VERSION # should be 4.x not the old 3.2.X
 # Later, confirm iterm settings aren't conflicting.
 
-
 # iterm with more margin! http://hackr.it/articles/prettier-gutter-in-iterm-2/
 #   (admittedly not as easy to maintain)
 
-
 # setting up the sublime symlink
-ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin/subl
-
+ln -sf "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 
 ###
 ##############################################################################################################
@@ -220,3 +218,4 @@ sh .osx
 
 ###
 ##############################################################################################################
+#
