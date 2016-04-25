@@ -1,0 +1,6 @@
+# The top-most paths override here.
+PATH=/opt/local/bin
+PATH=$PATH:/opt/local/sbin
+PATH=$PATH:/bin
+
+export PATH

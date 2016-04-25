@@ -29,7 +29,6 @@ cp -R ~/.gnupg ~/migration/home
 
 cp /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist ~/migration  # wifi
 
-cp ~/Library/Preferences/net.limechat.LimeChat.plist ~/migration
 cp ~/Library/Preferences/com.tinyspeck.slackmacgap.plist ~/migration
 
 cp -R ~/Library/Services ~/migration # automator stuff
@@ -40,11 +39,8 @@ cp ~/.bash_history ~/migration # back it up for fun?
 
 cp ~/.gitconfig.local ~/migration
 
-cp ~/.z ~/migration # z history file.
-
 # sublime text settings
 cp "~/Library/Application Support/Sublime Text 3/Packages" ~/migration
-
 
 # iTerm settings.
   # Prefs, General, Use settings from Folder

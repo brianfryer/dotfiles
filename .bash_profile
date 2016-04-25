@@ -52,21 +52,20 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # ^ the only downside with this is [up] on the readline will go over all history not just this bash session.
 
 
-
 ##
 ## hooking in other apps…
 ##
+
+# NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+nvm use 4.1.2
 
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-
-# z beats cd most of the time.
-#   github.com/rupa/z
+# z beats cd most of the time (github.com/rupa/z)
 source ~/code/z/z.sh
-
 
 
 ##

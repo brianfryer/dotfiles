@@ -11,9 +11,9 @@ brew cask install bartender
 brew cask install dashlane
 brew cask install divvy
 brew cask install dropbox
-brew cask install firefox
 brew cask install filezilla
 brew cask install flux
+brew cask install firefox
 brew cask install github-desktop
 brew cask install google-chrome
 brew cask install google-hangouts
@@ -28,6 +28,7 @@ brew cask install skype
 brew cask install slack
 brew cask install sonos
 brew cask install spotify
+brew cask install steam
 brew cask install sublime-text3
 brew cask install totalfinder
 brew cask install vagrant
