@@ -2,5 +2,7 @@
 PATH=/opt/local/bin
 PATH=$PATH:/opt/local/sbin
 PATH=$PATH:/bin
+PATH=$HOME/.homebrew/bin
+PATH=$HOME/.homebrew/sbin:$PATH
 
 export PATH
