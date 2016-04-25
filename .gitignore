@@ -1,5 +1,5 @@
-# Compiled Python files
-*.pyc
+# git credential file
+.gitconfig.local
 
 # Folder view configuration files
 .DS_Store
