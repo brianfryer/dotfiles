@@ -56,10 +56,9 @@
 # rewrites of repo paths
 [url "git@github.com:"]
   insteadOf = "gh:"
-  insteadOf = "git://github.com"
   pushInsteadOf = "github:"
   pushInsteadOf = "git://github.com/"
-    pushInsteadOf = "https://github.com/"
+  pushInsteadOf = "https://github.com/"
 [url "git@gist.github.com:"]
   insteadOf = "gst:"
   pushInsteadOf = "gist:"
@@ -77,6 +76,10 @@
 # use separate file for username / github token / etc
 [include]
   path = ~/.gitconfig.local
+
+[credential]
+  helper = osxkeychain
+  default = simple
 
 [init]
   templatedir = ~/.git_template
