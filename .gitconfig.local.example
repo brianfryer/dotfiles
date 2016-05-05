@@ -1,8 +1,7 @@
 [user]
-    name = Brian Fryer
-    email = brianfryer@gmail.com
-[github]
-    user = brianfryer
+    user = githubusername
+    name = Your Name
+    email = you@email.com
     token = token
 [credential]
     helper = osxkeychain

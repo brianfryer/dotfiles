@@ -2,6 +2,7 @@
 #   ~/.extra can be used for settings you don’t want to commit,
 #   Use it to configure your PATH, thus it being first in line.
 for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
+    echo "$file"
     [ -r "$file" ] && source "$file"
 done
 unset file
@@ -84,9 +85,9 @@ elif [ -f /etc/bash_completion ]; then
 fi;
 
 # homebrew completion
-if  which brew > /dev/null; then
-    source `brew --repository`/Library/Contributions/brew_bash_completion.sh
-fi;
+#if  which brew > /dev/null; then
+#    source `brew --repository`/Library/Contributions/brew_bash_completion.sh
+#fi;
 
 # hub completion
 if  which hub > /dev/null; then

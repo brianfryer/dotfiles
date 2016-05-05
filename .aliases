@@ -50,7 +50,15 @@ function clone() {
     bower install &
     npm install
 }
-alias push="git push"
+
+alias g="git"
+alias ga="git add . -A"
+alias gbc="git checkout -b"
+alias gcb="git checkout -b"
+alias gbl="git branch --list -a -v -v"
+alias gc="git commit -m"
+alias gp="git push"
+alias gs="git status -s"
 
 # Undo a `git push`
 alias undopush="git push -f origin HEAD^:master"
@@ -72,7 +80,6 @@ alias diskspace_report="df -P -kHl"
 alias free_diskspace_report="diskspace_report"
 
 # Shortcuts
-alias g="git"
 alias v="vim"
 alias ungz="gunzip -k"
 
