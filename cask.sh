@@ -21,6 +21,7 @@ brew cask install google-nik-collection
 brew cask install homebrew-fonts
 brew cask install iterm2
 brew cask install java
+brew cask install jawbone-updater
 brew cask install lastpass
 brew cask install licecap
 brew cask install sequel-pro
