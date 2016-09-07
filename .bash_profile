@@ -64,6 +64,7 @@ nvm use 4.1.2
 
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+rvm use 2.3.1
 
 # z beats cd most of the time (github.com/rupa/z)
 source ~/code/z/z.sh
