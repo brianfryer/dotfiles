@@ -16,6 +16,7 @@ brew cask install flux
 brew cask install firefox
 brew cask install github-desktop
 brew cask install google-chrome
+brew cask install google-drive
 brew cask install google-hangouts
 brew cask install google-nik-collection
 brew cask install homebrew-fonts
