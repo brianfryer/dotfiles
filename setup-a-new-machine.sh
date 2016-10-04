@@ -175,6 +175,13 @@ echo $BASH_VERSION # should be 4.x not the old 3.2.X
 # setting up the sublime symlink
 ln -sf "/Applications/Sublime Text 3.app/Contents/SharedSupport/bin/subl" ~/bin/subl
 
+# install Sublime Package Control
+curl https://packagecontrol.io/Package%20Control.sublime-package ~/.config/sublime-text-3/Installed Packages
+# copy Package Control settings
+cp ./prefs/Package\ Control.sublime-settings ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
+# init Package Control (simply open Sublime)
+subl
+
 ###
 ##############################################################################################################
 

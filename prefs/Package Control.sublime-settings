@@ -1,0 +1,29 @@
+{
+    "bootstrapped": true,
+    "in_process_packages":
+    [
+    ],
+    "installed_packages":
+    [
+        "AdvancedNewFile",
+        "Alignment",
+        "AngularJS",
+        "BracketHighlighter",
+        "Color Highlighter",
+        "CSS3",
+        "Git",
+        "GitGutter",
+        "HTML-CSS-JS Prettify",
+        "HTML5",
+        "Laravel Blade Highlighter",
+        "Material Theme",
+        "Modific",
+        "MultiEditUtils",
+        "Package Control",
+        "SCSS",
+        "SideBarEnhancements",
+        "SublimeCodeIntel",
+        "Tag",
+        "TrailingSpaces"
+    ]
+}
