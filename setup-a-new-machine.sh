@@ -140,9 +140,7 @@ gem install bundler
 # Install nvm (https://github.com/creationix/nvm)
 curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 # Install node stuffs
-npm install -g bower cordova firebase gulp ionic phantomjs-prebuilt
-# Type `git open` to open the GitHub page or website for a repository.
-npm install -g git-open
+npm install -g yarnpkg bower cordova firebase gulp ionic phantomjs-prebuilt
 
 # github.com/rupa/z   - oh how i love you
 git clone https://github.com/rupa/z.git ~/code/z
