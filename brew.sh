@@ -56,6 +56,7 @@ brew install tree
 brew install zopfli
 brew install ffmpeg --with-libvpx
 brew install gcc42
+brew install yarn
 brew install android-sdk
 
 brew install terminal-notifier
