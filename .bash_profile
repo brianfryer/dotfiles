@@ -64,12 +64,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm use 6.9
 
-# yarn
-export PATH="$PATH:`yarn global bin`"
-
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 rvm use 2.3.1
+
+# Load pyenv
+eval "$(pyenv init -)"
 
 # z beats cd most of the time (github.com/rupa/z)
 source ~/code/z/z.sh
