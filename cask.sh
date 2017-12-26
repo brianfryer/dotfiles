@@ -24,7 +24,7 @@ brew cask install iterm2
 brew cask install java
 brew cask install lastpass
 brew cask install licecap
-brew cask install sequel-pro
+brew cask install signal
 brew cask install skype
 brew cask install slack
 brew cask install sonos
