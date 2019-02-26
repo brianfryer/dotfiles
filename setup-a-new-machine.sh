@@ -138,9 +138,12 @@ curl -L https://get.rvm.io | bash -s stable --ruby
 gem install bundler
 
 # Install nvm (https://github.com/creationix/nvm)
-curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+# curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+
+# Install n
+curl -L https://git.io/n-install | bash
 # Install node stuffs
-npm install -g bower cordova firebase gulp ionic phantomjs-prebuilt netlify-cli eslint
+yarn install -g gulp yo @gridsome/cli @flyntwp/flynt-cli @flyntwp/generator-flynt
 
 # github.com/rupa/z   - oh how i love you
 git clone https://github.com/rupa/z.git ~/code/z

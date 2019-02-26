@@ -4,6 +4,6 @@ PATH=$PATH:/opt/local/sbin
 PATH=$PATH:/bin
 PATH=$HOME/.homebrew/bin
 PATH=$HOME/.homebrew/sbin:$PATH
-ANDROID_HOME=/Users/brains/.homebrew/opt/android-sdk
+ANDROID_HOME=/Users/brianfryer/.homebrew/opt/android-sdk
 
 export PATH

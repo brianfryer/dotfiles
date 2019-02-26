@@ -15,7 +15,7 @@ brew install gnu-sed --default-names # GNU `sed`, overwriting the built-in `sed`
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before running `chsh`.
 brew install bash
 brew tap homebrew/versions
-brew install bash-completion2
+brew install bash-completion
 brew install homebrew/completions/brew-cask-completion
 
 # generic colouriser  http://kassiopeia.juls.savba.sk/~garabik/software/grc/
@@ -57,6 +57,7 @@ brew install zopfli
 brew install ffmpeg --with-libvpx
 brew install gcc42
 brew install android-sdk
+brew install yarn --ignore-dependencies # so as to not reinstall node
 
 brew install terminal-notifier
 

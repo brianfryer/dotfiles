@@ -77,14 +77,14 @@
 [include]
   path = ~/.gitconfig.local
 
-[credential]
-  helper = osxkeychain
-  default = simple
-
 [init]
   templatedir = ~/.git_template
 
 [filter "lfs"]
-  clean = git-lfs clean %f
-  smudge = git-lfs smudge %f
   required = true
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[user]
+	name = Brian Fryer
+	email = brianfryer@gmail.com
