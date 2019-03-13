@@ -110,8 +110,10 @@ fi
 ### homebrew!
 
 # (if your machine has /usr/local locked down (like google's), you can do this to place everything in ~/.homebrew
-mkdir $HOME/.homebrew && curl -L https://github.com/mxcl/homebrew/tarball/master | tar xz --strip 1 -C $HOME/.homebrew
-export PATH=$HOME/.homebrew/bin:$HOME/.homebrew/sbin:$PATH
+# mkdir $HOME/.homebrew && curl -L https://github.com/mxcl/homebrew/tarball/master | tar xz --strip 1 -C $HOME/.homebrew
+# export PATH=$HOME/.homebrew/bin:$HOME/.homebrew/sbin:$PATH
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
 
 # install all the things
 ./brew.sh
@@ -143,7 +145,8 @@ gem install bundler
 # Install n
 curl -L https://git.io/n-install | bash
 # Install node stuffs
-yarn install -g gulp yo @gridsome/cli @flyntwp/flynt-cli @flyntwp/generator-flynt
+nom install -g yarn
+yarn global add gulp yo @gridsome/cli @flyntwp/flynt-cli @flyntwp/generator-flynt
 
 # github.com/rupa/z   - oh how i love you
 git clone https://github.com/rupa/z.git ~/code/z

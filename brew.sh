@@ -9,32 +9,25 @@ brew upgrade # Upgrade any already-installed formulae
 brew install coreutils
 brew install moreutils
 brew install findutils # GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
-brew install gnu-sed --default-names # GNU `sed`, overwriting the built-in `sed`
+brew reinstall gnu-sed --default-names # GNU `sed`, overwriting the built-in `sed`
 
 # Bash 4
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before running `chsh`.
 brew install bash
 brew tap homebrew/versions
 brew install bash-completion
-brew install homebrew/completions/brew-cask-completion
 
 # generic colouriser  http://kassiopeia.juls.savba.sk/~garabik/software/grc/
 brew install grc
 
 # Install wget with IRI support
-brew install wget --with-iri
+brew install wget
 
 # Install more recent versions of some OS X tools
-brew install vim --override-system-vi
-brew install homebrew/dupes/grep
-brew install homebrew/dupes/openssh
-brew install homebrew/dupes/screen
+brew install vim
 
 # run this script when this file changes guy.
 brew install entr
-
-# github util. imho better than hub
-brew install gh
 
 # mtr - ping & traceroute. best.
 brew install mtr
@@ -49,19 +42,15 @@ brew install the_silver_searcher
 brew install fzf
 
 brew install git
-brew install imagemagick --with-webp
+brew install imagemagick
 brew install pv
 brew install rename
 brew install tree
 brew install zopfli
-brew install ffmpeg --with-libvpx
-brew install gcc42
-brew install android-sdk
-brew install yarn --ignore-dependencies # so as to not reinstall node
+brew install ffmpeg
 
 brew install terminal-notifier
 
-brew install android-platform-tools
 brew install pidcat   # colored logcat guy
 
 brew install zsh
