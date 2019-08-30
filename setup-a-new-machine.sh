@@ -145,8 +145,7 @@ gem install bundler
 # Install n
 curl -L https://git.io/n-install | bash
 # Install node stuffs
-nom install -g yarn
-yarn global add gulp yo @gridsome/cli @flyntwp/flynt-cli @flyntwp/generator-flynt
+npm install -g yarn
 
 # github.com/rupa/z   - oh how i love you
 git clone https://github.com/rupa/z.git ~/code/z
