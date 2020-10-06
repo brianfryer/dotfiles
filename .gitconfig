@@ -88,3 +88,5 @@
 [user]
 	name = Brian Fryer
 	email = brianfryer@gmail.com
+[credential]
+	helper = osxkeychain
