@@ -82,7 +82,9 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export PATH="$PATH:$HOME/.rvm/bin"
 
 # Load pyenv
-eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
 
 # z beats cd most of the time (github.com/rupa/z)
 source ~/code/z/z.sh
