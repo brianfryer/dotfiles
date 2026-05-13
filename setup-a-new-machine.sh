@@ -139,9 +139,6 @@ curl -L https://get.rvm.io | bash -s stable --ruby
 # Install bundler (https://bundler.io)
 gem install bundler
 
-# Install nvm (https://github.com/creationix/nvm)
-# curl https://raw.github.com/creationix/nvm/master/install.sh | sh
-
 # Install n
 curl -L https://git.io/n-install | bash
 # Install node stuffs

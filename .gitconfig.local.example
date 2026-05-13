@@ -1,8 +1,10 @@
+# Optional machine-local overrides only.
+# Keep GitHub credentials in the macOS Keychain via `gh auth login`
+# or `git credential-osxkeychain`, not in this file.
 [user]
     user = githubusername
     name = Your Name
     email = you@email.com
-    token = token
 [credential]
     helper = osxkeychain
     default = simple

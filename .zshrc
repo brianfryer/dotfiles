@@ -1,6 +1,7 @@
-source ~/.profile
+# source ~/.profile
 # [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 
+eval $(/opt/homebrew/bin/brew shellenv)
 
 # Load our dotfiles like ~/.bash_prompt, etc…
 #   ~/.extra can be used for settings you don’t want to commit,
@@ -12,9 +13,9 @@ done
 unset file
 
 # to help sublimelinter etc with finding my PATHS
-case $- in
-   *i*) source ~/.extra
-esac
+# case $- in
+#    *i*) source ~/.extra
+# esac
 
 # generic colouriser
 GRC=`which grc`
@@ -45,28 +46,18 @@ export HISTTIMEFORMAT='%F %T '
 
 # keep history up to date, across sessions, in realtime
 #  http://unix.stackexchange.com/a/48113
-export HISTCONTROL=ignoredups:erasedups         # no duplicate entries
-export HISTSIZE=100000                          # big big history (default is 500)
-export HISTFILESIZE=$HISTSIZE                   # big big history
-which shopt > /dev/null && shopt -s histappend  # append to history, don't overwrite it
-
-# Save and reload the history after each command finishes
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+setopt HIST_IGNORE_DUPS                        # no duplicate entries
+setopt HIST_IGNORE_ALL_DUPS                    # remove older duplicates
+setopt HIST_SAVE_NO_DUPS                       # don't save duplicates
+setopt SHARE_HISTORY                           # share history across sessions
+setopt APPEND_HISTORY                          # append to history, don't overwrite it
+HISTSIZE=100000                                # big big history (default is 500)
+SAVEHIST=$HISTSIZE                            # big big history
 
 # ^ the only downside with this is [up] on the readline will go over all history not just this bash session.
 
-
-##
-## hooking in other apps…
-##
-
-# NVM
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-#nvm use 6.9
-
 # N
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+# export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 # Load RVM into a shell session *as a function*
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
@@ -74,9 +65,8 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+# export PATH="$PATH:$HOME/.rvm/bin"
 
 # Load pyenv
 eval "$(pyenv init -)"
@@ -84,44 +74,19 @@ eval "$(pyenv init -)"
 # z beats cd most of the time (github.com/rupa/z)
 source ~/code/z/z.sh
 
-
 ##
 ## Completion…
 ##
 
-if [[ -n "$ZSH_VERSION" ]]; then  # quit now if in zsh
-    return 1 2> /dev/null || exit 1;
-fi;
+# Enable zsh completions
+autoload -Uz compinit
+compinit
 
-# bash completion.
-# if  which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
-#     source "$(brew --prefix)/share/bash-completion/bash_completion";
-# elif [ -f /etc/bash_completion ]; then
-#     source /etc/bash_completion;
-# fi;
-
-if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
-  . `brew --prefix`/etc/bash_completion.d/git-completion.bash
+# zsh completions
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
-
-# homebrew completion
-#if  which brew > /dev/null; then
-#    source `brew --repository`/Library/Contributions/brew_bash_completion.sh
-#fi;
-
-# hub completion
-if  which hub > /dev/null; then
-    source "$(brew --prefix)/etc/bash_completion.d/hub.bash_completion.sh";
-fi;
-
-# Enable tab completion for `g` by marking it as an alias for `git`
-if type __git_complete &> /dev/null; then
-    __git_complete g __git_main
-fi;
-
-# Add tab completion for `defaults read|write NSGlobalDomain`
-# You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults
 
 
 ##
@@ -129,7 +94,28 @@ complete -W "NSGlobalDomain" defaults
 ##
 
 # Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob;
+setopt NO_CASE_GLOB
 
 # Autocorrect typos in path names when using `cd`
-shopt -s cdspell;
+setopt CORRECT
+
+# Add depot_tools to PATH for Aseprite development
+export PATH="$HOME/development/Aseprite/depot_tools:$PATH"
+
+# Activate the mise environment for zsh
+eval "$(mise activate zsh)"
+
+export PATH="/Users/brianfryer/.local/bin:$PATH"
+
+export PATH="/Users/brianfryer/.bun/bin:$PATH"
+
+#The binary must be in your PATH. On macOS/Linux, the default install location is ~/.local/bin/muninn — run echo $PATH to verify it includes ~/.local/bin. If not, add export PATH="$HOME/.local/bin:$PATH" to your ~/.zshrc or ~/.bashrc and restart your shell. On Windows, the default is %LOCALAPPDATA%\muninn — run $env:PATH in PowerShell to verify.
+
+export 
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/brianfryer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/brianfryer/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/brianfryer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/brianfryer/google-cloud-sdk/completion.zsh.inc'; fi

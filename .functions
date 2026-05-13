@@ -193,6 +193,26 @@ function nullify() {
   "$@" >/dev/null 2>&1
 }
 
+function miseenv() {
+  local output
+
+  if ! output="$(command mise env -s zsh "$@" 2>&1)"; then
+    case "$output" in
+      *untrusted*|*Trust*)
+        printf 'mise blocked this directory because it is not trusted.\n' >&2
+        printf 'Run: mise trust\n' >&2
+        return 1
+        ;;
+      *)
+        printf '%s\n' "$output" >&2
+        return 1
+        ;;
+    esac
+  fi
+
+  eval "$output" >/dev/null 2>&1
+}
+
 function ssl-check() {
     f=~/.localhost_ssl;
     ssl_crt=$f/server.crt

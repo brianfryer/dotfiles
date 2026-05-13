@@ -73,7 +73,7 @@
 [push]
   default = current
 
-# use separate file for username / github token / etc
+# use a separate file for machine-local overrides; keep credentials in Keychain
 [include]
   path = ~/.gitconfig.local
 
