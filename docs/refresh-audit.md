@@ -74,7 +74,8 @@ python3 scripts/audit-command-usage.py --format json > /tmp/dotfiles-usage-audit
 4. Add Atuin for structured future shell-history tracking.
 5. Clean `.zshrc`, `.aliases`, and `.functions` using the reviewed decisions.
 6. Rewrite bootstrap scripts with idempotent steps and detailed comments.
-7. Split or archive `.osx` after a manual macOS-settings review.
+7. Keep macOS defaults separate from bootstrap, with the legacy `.osx` script
+   archived and reviewed user-level defaults in `macos-defaults.sh`.
 
 ## Comment Standard
 

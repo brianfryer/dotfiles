@@ -58,6 +58,25 @@ Preview link operations without changing files:
 The script prompts before replacing a path that already exists and is not
 already the expected symlink.
 
+## macOS Defaults
+
+Preview the reviewed user-level macOS defaults:
+
+```bash
+./macos-defaults.sh --dry-run
+```
+
+Apply them manually:
+
+```bash
+./macos-defaults.sh
+```
+
+The macOS defaults script is intentionally separate from fresh-machine
+bootstrap. It changes Finder, Dock, keyboard, browser, and screenshot behavior.
+The legacy all-in-one `.osx` script is preserved at
+`archive/osx-legacy.sh` for reference.
+
 ## Usage Audit
 
 Regenerate the usage report:

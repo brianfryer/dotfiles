@@ -174,3 +174,16 @@ still affect fresh clones because they are tracked or linked by setup scripts.
 | `z` gitlink | remove | Gitlink has no `.gitmodules` mapping and breaks `git submodule status`. | Delete; source `z` from an external checkout when present. |
 | `.dircolors` | remove | No shell startup path consumes GNU dircolors now. | Delete with the `gdircolors` cleanup. |
 | Bash startup files | keep | Useful fallback shell support, but should not carry stale Zsh-era comments or old package-manager paths. | Keep minimal `.bash_profile`, `.bashrc`, and `.bash_prompt`. |
+
+## macOS Defaults
+
+The old `.osx` file mixed safe user defaults with privileged machine-wide
+commands, firmware writes, indexing rebuilds, and preferences for applications
+that are not part of the default Brewfile.
+
+| Area | Draft Status | Rationale | Proposed Action |
+| --- | --- | --- | --- |
+| `.osx` | archive | The script is useful as historical reference but too broad and privileged for default setup. | Move to `archive/osx-legacy.sh`. |
+| User-level defaults | keep | Finder, Dock, keyboard, screenshot, Safari, Chrome, and Activity Monitor preferences are useful and reversible. | Maintain in `macos-defaults.sh` with `--dry-run`. |
+| Privileged system settings | manual | Power, NVRAM, Spotlight indexing, Time Machine, and Accessibility writes can be disruptive or macOS-version-sensitive. | Keep out of automated setup unless reintroduced behind explicit flags. |
+| App-specific legacy blocks | remove | GPGMail, Opera, SizeUp, Transmission, Twitter, Spectacle, and Chrome Canary are not part of the current Brewfile. | Leave in the archived script only. |
