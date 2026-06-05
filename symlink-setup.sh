@@ -1,185 +1,107 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# this symlinks all the dotfiles (and .vim/) to ~/
-# it also symlinks ~/bin for easy updating
-
-# this is safe to run multiple times and will prompt you about anything unclear
-
-
-# this is a messy edit of alrra's nice work here:
-#   https://raw.githubusercontent.com/alrra/dotfiles/master/os/create_symbolic_links.sh
-#   it should and needs to be improved to be less of a hack.
-
-
-
-# jump down to line ~140 for the start.
-
-
-
+# Link this repo's selected dotfiles into $HOME.
 #
-# utils !!!
+# The target list is explicit on purpose. Auto-discovering every dotfile in the
+# repo makes backups, examples, Git metadata, generated files, and retired
+# experiments too easy to link into a real home directory.
 #
+# Usage:
+#   ./symlink-setup.sh
+#   ./symlink-setup.sh --dry-run
 
+dry_run=false
 
-answer_is_yes() {
-    [[ "$REPLY" =~ ^[Yy]$ ]] \
-        && return 0 \
-        || return 1
+case "${1:-}" in
+  --dry-run)
+    dry_run=true
+    ;;
+  "")
+    ;;
+  *)
+    printf 'Usage: %s [--dry-run]\n' "$0" >&2
+    exit 2
+    ;;
+esac
+
+repo_root="$(cd "$(dirname "$0")" && pwd)"
+
+items_to_link=(
+  ".aliases"
+  ".bash_profile"
+  ".bash_prompt"
+  ".bashrc"
+  ".exports"
+  ".functions"
+  ".gitconfig"
+  ".gitignore"
+  ".inputrc"
+  ".zprofile"
+  ".zshrc"
+)
+
+info() {
+  printf '  [info] %s\n' "$*"
 }
 
-ask() {
-    print_question "$1"
-    read
+success() {
+  printf '  [ok] %s\n' "$*"
 }
 
-ask_for_confirmation() {
-    print_question "$1 (y/n) "
-    read -n 1
-    printf "\n"
+warn() {
+  printf '  [warn] %s\n' "$*" >&2
 }
 
-ask_for_sudo() {
+confirm() {
+  local prompt="$1"
+  local reply
 
-    # Ask for the administrator password upfront
-    sudo -v
-
-    # Update existing `sudo` time stamp until this script has finished
-    # https://gist.github.com/cowboy/3118588
-    while true; do
-        sudo -n true
-        sleep 60
-        kill -0 "$$" || exit
-    done &> /dev/null &
-
+  printf '%s (y/n) ' "$prompt" >&2
+  read -r reply
+  case "$reply" in
+    [Yy]) return 0 ;;
+    *) return 1 ;;
+  esac
 }
 
-cmd_exists() {
-    [ -x "$(command -v "$1")" ] \
-        && printf 0 \
-        || printf 1
-}
+link_item() {
+  local item="$1"
+  local source_path="$repo_root/$item"
+  local target_path="$HOME/$(basename "$item")"
 
-execute() {
-    $1 &> /dev/null
-    print_result $? "${2:-$1}"
-}
+  if [ ! -e "$source_path" ]; then
+    warn "Skipping missing source: $source_path"
+    return 0
+  fi
 
-get_answer() {
-    printf "$REPLY"
-}
+  if [ -L "$target_path" ] && [ "$(readlink "$target_path")" = "$source_path" ]; then
+    success "$target_path already links to $source_path"
+    return 0
+  fi
 
-get_os() {
-
-    declare -r OS_NAME="$(uname -s)"
-    local os=""
-
-    if [ "$OS_NAME" == "Darwin" ]; then
-        os="osx"
-    elif [ "$OS_NAME" == "Linux" ] && [ -e "/etc/lsb-release" ]; then
-        os="ubuntu"
+  if [ -e "$target_path" ] || [ -L "$target_path" ]; then
+    if [ "$dry_run" = true ]; then
+      info "Would ask before replacing $target_path with a symlink to $source_path"
+      return 0
     fi
 
-    printf "%s" "$os"
-
-}
-
-is_git_repository() {
-    [ "$(git rev-parse &>/dev/null; printf $?)" -eq 0 ] \
-        && return 0 \
-        || return 1
-}
-
-mkd() {
-    if [ -n "$1" ]; then
-        if [ -e "$1" ]; then
-            if [ ! -d "$1" ]; then
-                print_error "$1 - a file with the same name already exists!"
-            else
-                print_success "$1"
-            fi
-        else
-            execute "mkdir -p $1" "$1"
-        fi
+    if ! confirm "$target_path exists. Replace it with a symlink to $source_path?"; then
+      warn "Skipped $target_path"
+      return 0
     fi
+
+    rm -rf "$target_path"
+  fi
+
+  if [ "$dry_run" = true ]; then
+    info "Would link $target_path -> $source_path"
+  else
+    ln -s "$source_path" "$target_path"
+    success "$target_path -> $source_path"
+  fi
 }
 
-print_error() {
-    # Print output in red
-    printf "\e[0;31m  [✖] $1 $2\e[0m\n"
-}
-
-print_info() {
-    # Print output in purple
-    printf "\n\e[0;35m $1\e[0m\n\n"
-}
-
-print_question() {
-    # Print output in yellow
-    printf "\e[0;33m  [?] $1\e[0m"
-}
-
-print_result() {
-    [ $1 -eq 0 ] \
-        && print_success "$2" \
-        || print_error "$2"
-
-    [ "$3" == "true" ] && [ $1 -ne 0 ] \
-        && exit
-}
-
-print_success() {
-    # Print output in green
-    printf "\e[0;32m  [✔] $1\e[0m\n"
-}
-
-
-
-
-
-
-#
-# actual symlink stuff
-#
-
-
-# finds all .dotfiles in this folder
-declare -a FILES_TO_SYMLINK=$(find . -type f -maxdepth 1 -name ".*" -not -name .DS_Store -not -name .git -not -name .osx | sed -e 's|//|/|' | sed -e 's|./.|.|')
-FILES_TO_SYMLINK="$FILES_TO_SYMLINK .vim bin .config/fish" # add in vim and the binaries
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-main() {
-
-    local i=""
-    local sourceFile=""
-    local targetFile=""
-
-    for i in ${FILES_TO_SYMLINK[@]}; do
-
-        sourceFile="$(pwd)/$i"
-        targetFile="$HOME/$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
-
-        if [ -e "$targetFile" ]; then
-            if [ "$(readlink "$targetFile")" != "$sourceFile" ]; then
-
-                ask_for_confirmation "'$targetFile' already exists, do you want to overwrite it?"
-                if answer_is_yes; then
-                    rm -rf "$targetFile"
-                    execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
-                else
-                    print_error "$targetFile → $sourceFile"
-                fi
-
-            else
-                print_success "$targetFile → $sourceFile"
-            fi
-        else
-            execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
-        fi
-
-    done
-
-}
-
-main
+for item in "${items_to_link[@]}"; do
+  link_item "$item"
+done

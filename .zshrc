@@ -1,32 +1,17 @@
-# source ~/.profile
-# [[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
+# Homebrew installs into /opt/homebrew on Apple Silicon. `brew shellenv` exports
+# PATH, MANPATH, and INFOPATH for formulae installed by Brewfile. This is guarded
+# because a fresh machine may source .zshrc before Homebrew exists.
+if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
-eval $(/opt/homebrew/bin/brew shellenv)
-
-# Load our dotfiles like ~/.bash_prompt, etc…
-#   ~/.extra can be used for settings you don’t want to commit,
-#   Use it to configure your PATH, thus it being first in line.
-for file in ~/.{extra,bash_prompt,exports,aliases,functions}; do
-    echo "$file"
+# Load shared shell fragments. `~/.extra` is intentionally first so private,
+# machine-local PATH and credential-adjacent settings can override committed
+# defaults without being stored in this repository.
+for file in ~/.{extra,exports,aliases,functions}; do
     [ -r "$file" ] && source "$file"
 done
 unset file
-
-# to help sublimelinter etc with finding my PATHS
-# case $- in
-#    *i*) source ~/.extra
-# esac
-
-# generic colouriser
-GRC=`which grc`
-if [ "$TERM" != dumb ] && [ -n "$GRC" ]
-    then
-        alias colourify="$GRC -es --colour=auto"
-        alias configure='colourify ./configure'
-        for app in {diff,make,gcc,g++,ping,traceroute}; do
-            alias "$app"='colourify '$app
-    done
-fi
 
 # highlighting inside manpages and elsewhere
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
@@ -56,23 +41,16 @@ SAVEHIST=$HISTSIZE                            # big big history
 
 # ^ the only downside with this is [up] on the readline will go over all history not just this bash session.
 
-# N
-# export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+# Load pyenv only when installed. Python version management is useful, but
+# shell startup should not fail on a fresh machine before Brewfile has run.
+if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
 
-# Load RVM into a shell session *as a function*
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-# rvm use 2.3.1
-
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-# export PATH="$PATH:$HOME/.rvm/bin"
-
-# Load pyenv
-eval "$(pyenv init -)"
-
-# z beats cd most of the time (github.com/rupa/z)
-source ~/code/z/z.sh
+# z keeps a frecency-ranked directory database and makes repeated project
+# navigation faster than typing full paths. The integration is guarded because
+# the checkout lives outside this repo.
+[ -r "$HOME/code/z/z.sh" ] && source "$HOME/code/z/z.sh"
 
 ##
 ## Completion…
@@ -102,20 +80,29 @@ setopt CORRECT
 # Add depot_tools to PATH for Aseprite development
 export PATH="$HOME/development/Aseprite/depot_tools:$PATH"
 
-# Activate the mise environment for zsh
-eval "$(mise activate zsh)"
+# Activate mise when present. mise owns project runtime selection for tools
+# such as Node, Ruby, Python, and other language ecosystems.
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate zsh)"
+fi
 
-export PATH="/Users/brianfryer/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
-export PATH="/Users/brianfryer/.bun/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
 
-#The binary must be in your PATH. On macOS/Linux, the default install location is ~/.local/bin/muninn — run echo $PATH to verify it includes ~/.local/bin. If not, add export PATH="$HOME/.local/bin:$PATH" to your ~/.zshrc or ~/.bashrc and restart your shell. On Windows, the default is %LOCALAPPDATA%\muninn — run $env:PATH in PowerShell to verify.
+# Structured shell history. Atuin records command history in SQLite with richer
+# metadata than raw zsh history files. Sync/account setup is intentionally left
+# to the user; this only enables local shell integration when `atuin` is present.
+if command -v atuin >/dev/null 2>&1; then
+    eval "$(atuin init zsh)"
+fi
 
-export 
+# Google Cloud SDK hooks are optional and machine-local. Source them only when
+# the SDK has been installed outside this repo.
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
+    . "$HOME/google-cloud-sdk/path.zsh.inc"
+fi
 
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/brianfryer/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/brianfryer/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/brianfryer/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/brianfryer/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
+    . "$HOME/google-cloud-sdk/completion.zsh.inc"
+fi

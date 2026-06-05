@@ -1,199 +1,144 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Create a new directory and enter it
-function md() {
+# Interactive shell functions for the default environment.
+#
+# This file is sourced by `.zshrc`, so functions should earn their place here.
+# Prefer clear behavior, quoted variables, and implementations that rely on
+# tools managed by Brewfile or macOS itself. If a helper is project-specific or
+# rarely needed, keep it out of the global shell surface until it has a current
+# workflow.
+
+# Create a directory and enter it.
+#
+# `mkdir -p` creates nested directories, and `cd` moves the current shell into
+# the resulting path only when creation succeeds.
+md() {
   mkdir -p "$@" && cd "$@"
 }
 
-# Copy w/ progress
-cp_p() {
-  rsync -WavP --human-readable --progress $1 $2
-}
+# Pretty-print JSON from stdin, a file, or an inline string.
+#
+# `jq` is purpose-built for JSON and is installed through Brewfile.
+json() {
+  if ! command -v jq >/dev/null 2>&1; then
+    printf 'json requires jq. Install it with: brew bundle --file Brewfile\n' >&2
+    return 1
+  fi
 
-# List all files, long format, colorized, permissions in octal
-function la(){
-  ls -l  "$@" | awk '
-    {
-      k=0;
-      for (i=0;i<=8;i++)
-        k+=((substr($1,i+2,1)~/[rwx]/) *2^(8-i));
-      if (k)
-        printf("%0o ",k);
-      printf(" %9s  %3s %2s %5s  %6s  %s %s %s\n", $3, $6, $7, $8, $5, $9,$10, $11);
-    }'
-}
-
-# cd into whatever is the forefront Finder window.
-cdf() {  # short for cdfinder
-  cd "`osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)'`"
-}
-
-# Syntax-highlight JSON strings or files
-function json() {
   if [ -p /dev/stdin ]; then
-    # piping, e.g. `echo '{"foo":42}' | json`
-    python -mjson.tool | pygmentize -l javascript
+    jq .
+  elif [ "$#" -eq 1 ] && [ -f "$1" ]; then
+    jq . "$1"
+  elif [ "$#" -gt 0 ]; then
+    printf '%s\n' "$*" | jq .
   else
-    # e.g. `json '{"foo":42}'`
-    python -mjson.tool <<< "$*" | pygmentize -l javascript
+    printf 'Usage: json <file|json-string> or pipe JSON into json.\n' >&2
+    return 2
   fi
 }
 
-# take this repo and copy it to somewhere else minus the .git stuff.
-function gitexport() {
-  mkdir -p "$1"
-  git archive master | tar -x -C "$1"
-}
+# Return to the root of the current Git repository.
+#
+# This asks Git for the absolute top-level directory and leaves the current
+# directory unchanged when the shell is not inside a Git repository.
+gr() {
+  local root
 
-# get gzipped size
-function gz() {
-  echo "orig size    (bytes): "
-  cat "$1" | wc -c
-  echo "gzipped size (bytes): "
-  gzip -c "$1" | wc -c
-}
-
-# Escape UTF-8 characters into their 3-byte format
-function escape() {
-  printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
-  echo # newline
-}
-
-# Decode \x{ABCD}-style Unicode escape sequences
-function unidecode() {
-  perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
-  echo # newline
-}
-
-# Extract archives - use: extract <file>
-# Based on http://dotfiles.org/~pseup/.bashrc
-function extract() {
-  if [ -f "$1" ] ; then
-    local filename=$(basename "$1")
-    local foldername="${filename%%.*}"
-    local fullpath=`perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1"`
-    local didfolderexist=false
-    if [ -d "$foldername" ]; then
-      didfolderexist=true
-      read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
-      echo
-      if [[ $REPLY =~ ^[Nn]$ ]]; then
-        return
-      fi
-    fi
-    mkdir -p "$foldername" && cd "$foldername"
-    case $1 in
-      *.tar.bz2) tar xjf "$fullpath" ;;
-      *.tar.gz) tar xzf "$fullpath" ;;
-      *.tar.xz) tar Jxvf "$fullpath" ;;
-      *.tar.Z) tar xzf "$fullpath" ;;
-      *.tar) tar xf "$fullpath" ;;
-      *.taz) tar xzf "$fullpath" ;;
-      *.tb2) tar xjf "$fullpath" ;;
-      *.tbz) tar xjf "$fullpath" ;;
-      *.tbz2) tar xjf "$fullpath" ;;
-      *.tgz) tar xzf "$fullpath" ;;
-      *.txz) tar Jxvf "$fullpath" ;;
-      *.zip) unzip "$fullpath" ;;
-      *) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
+  if ! root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    printf 'Not inside a Git repository.\n' >&2
+    return 1
   fi
+
+  cd "$root"
 }
 
-# animated gifs from any video
-# from alex sexton   gist.github.com/SlexAxton/4989674
-function gifify() {
-  if [[ -n "$1" ]]; then
-    if [[ $2 == '--good' ]]; then
-      ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
-      time convert -verbose +dither -layers Optimize -resize 600x600\> out-static*.png  GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - > $1.gif
-      rm out-static*.png
-    else
-      ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
-    fi
-  else
-    echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
-  fi
-}
-
-# Whiteboard Picture Cleaner
-# Cleans up and beautifies photos of whiteboards
-function whiteboard() {
-  convert $1 -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 $2
-}
-
-# Start an HTTP server from a directory, optionally specifying the port
-function server() {
+# Start a static HTTP server for the current directory.
+#
+# The optional first argument is the port; when omitted, port 8000 is used.
+# Python's standard-library server keeps this helper dependency-free beyond the
+# system Python installation.
+server() {
   local port="${1:-8000}"
-  open "http://localhost:${port}/" &
-  # statik is good because it won't expose hidden folders/files by default.
-  # npm install -g statik
-  statik --port "$port" .
-}
 
-# ???
-function localip(){
-  function _localip(){ echo "📶  "$(ipconfig getifaddr "$1"); }
-  export -f _localip
-  local purple="\x1B\[35m" reset="\x1B\[m"
-  networksetup -listallhardwareports | \
-    sed -r "s/Hardware Port: (.*)/${purple}\1${reset}/g" | \
-    sed -r "s/Device: (en.*)$/_localip \1/e" | \
-    sed -r "s/Ethernet Address:/📘 /g" | \
-    sed -r "s/(VLAN Configurations)|==*//g"
-}
-
-# whois a domain or a URL
-function whois() {
-  local domain=$(echo "$1" | awk -F/ '{print $3}') # get domain from URL
-  if [ -z $domain ] ; then
-    domain=$1
+  if ! command -v python3 >/dev/null 2>&1; then
+    printf 'server requires python3.\n' >&2
+    return 1
   fi
-  echo "Getting whois record for: $domain …"
 
-    # avoid recursion
-    # this is the best whois server
-    # strip extra fluff
-    /usr/bin/whois -h whois.internic.net $domain | sed '/NOTICE:/q'
+  if command -v open >/dev/null 2>&1; then
+    open "http://localhost:${port}/" >/dev/null 2>&1 &
+  fi
+
+  python3 -m http.server "$port"
 }
 
-# who is using the laptop's iSight camera?
-camerausedby() {
-  echo "Checking to see who is using the iSight camera… 📷"
-  usedby=$(lsof | grep -w "AppleCamera\|USBVDC\|iSight" | awk '{printf $2"\n"}' | xargs ps)
-  echo -e "Recent camera uses:\n$usedby"
-}
-
-# animated gifs from any video
-# from alex sexton   gist.github.com/SlexAxton/4989674
+# Convert a video file into an animated GIF.
+#
+# ffmpeg's palette workflow generally produces cleaner GIFs than direct video
+# conversion and keeps temporary files isolated.
+# Usage:
+#   gifify input.mov [output.gif]
 gifify() {
-  if [[ -n "$1" ]]; then
-  if [[ $2 == '--good' ]]; then
-    ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
-    time convert -verbose +dither -layers Optimize -resize 900x900\> out-static*.png  GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - > $1.gif
-    rm out-static*.png
-  else
-    ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
+  if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    printf 'Usage: gifify <input-video> [output.gif]\n' >&2
+    return 2
   fi
-  else
-  echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
+
+  if ! command -v ffmpeg >/dev/null 2>&1; then
+    printf 'gifify requires ffmpeg. Install it with: brew bundle --file Brewfile\n' >&2
+    return 1
   fi
+
+  local input="$1"
+  local output="${2:-$1.gif}"
+  local palette
+
+  if [ ! -f "$input" ]; then
+    printf "'%s' is not a file.\n" "$input" >&2
+    return 1
+  fi
+
+  palette="$(mktemp "${TMPDIR:-/tmp}/gifify-palette.XXXXXX.png")"
+  ffmpeg -v warning -i "$input" -vf "fps=12,scale=900:-1:flags=lanczos,palettegen" "$palette" &&
+    ffmpeg -v warning -i "$input" -i "$palette" -lavfi "fps=12,scale=900:-1:flags=lanczos[x];[x][1:v]paletteuse" "$output"
+  local status=$?
+  rm -f "$palette"
+  return "$status"
 }
 
-# turn that video into webm.
-# brew reinstall ffmpeg --with-libvpx
-webmify(){
-  ffmpeg -i $1 -vcodec libvpx -acodec libvorbis -isync -copyts -aq 80 -threads 3 -qmax 30 -y $2 $1.webm
+# Show local interface IP addresses.
+#
+# This is read-only and uses macOS `networksetup` plus `ipconfig` to print each
+# hardware port with the IPv4 address currently assigned to its device, if one
+# exists.
+localip() {
+  if ! command -v networksetup >/dev/null 2>&1; then
+    printf 'localip requires networksetup on macOS.\n' >&2
+    return 1
+  fi
+
+  networksetup -listallhardwareports | awk '
+    /^Hardware Port:/ {
+      port = substr($0, index($0, ":") + 2)
+    }
+    /^Device:/ {
+      device = $2
+      command = "ipconfig getifaddr " device " 2>/dev/null"
+      command | getline ip
+      close(command)
+      if (ip != "") {
+        printf "%s (%s): %s\n", port, device, ip
+      }
+      ip = ""
+    }
+  '
 }
 
-# direct it all to /dev/null
-function nullify() {
-  "$@" >/dev/null 2>&1
-}
-
-function miseenv() {
+# Evaluate mise environment changes with a clearer trust error.
+#
+# `mise env -s zsh` emits shell code. This wrapper captures errors first so an
+# untrusted directory produces an actionable message instead of a partial eval.
+miseenv() {
   local output
 
   if ! output="$(command mise env -s zsh "$@" 2>&1)"; then
@@ -213,47 +158,13 @@ function miseenv() {
   eval "$output" >/dev/null 2>&1
 }
 
-function ssl-check() {
-    f=~/.localhost_ssl;
-    ssl_crt=$f/server.crt
-    ssl_key=$f/server.key
-    b=$(tput bold)
-    c=$(tput sgr0)
-    
-    local_ip=$(ipconfig getifaddr $(route get default | grep interface | awk '{print $2}'))
-    # local_ip=999.999.999 # (uncomment for testing)
-    
-    domains=(
-        "localhost"
-        "$local_ip"
-    )
-    
-    if [[ ! -f $ssl_crt ]]; then
-        echo -e "\n🛑  ${b}Couldn't find a Slate SSL certificate:${c}"
-        make_key=true
-    elif [[ ! $(openssl x509 -noout -text -in $ssl_crt | grep $local_ip) ]]; then
-        echo -e "\n🛑  ${b}Your IP Address has changed:${c}"
-        make_key=true
-    else
-        echo -e "\n✅  ${b}Your IP address is still the same.${c}"
-    fi
-    
-    if [[ $make_key == true ]]; then
-        echo -e "Generating a new Slate SSL certificate...\n"
-        count=$(( ${#domains[@]} - 1))
-        mkcert ${domains[@]}
-    
-        # Create Slate's default certificate directory, if it doesn't exist
-        test ! -d $f && mkdir $f
-    
-        # It appears mkcert bases its filenames off the number of domains passed after the first one.
-        # This script predicts that filename, so it can copy it to Slate's default location.
-        if [[ $count = 0 ]]; then
-            mv ./localhost.pem $ssl_crt
-            mv ./localhost-key.pem $ssl_key
-        else
-            mv ./localhost+$count.pem $ssl_crt
-            mv ./localhost+$count-key.pem $ssl_key
-        fi
-    fi
+# Update Homebrew using supported modern commands.
+#
+# Language package managers should be updated in their own project contexts,
+# not as a global side effect of refreshing Homebrew.
+brew_update() {
+  brew update
+  brew upgrade
+  brew cleanup
+  brew doctor
 }

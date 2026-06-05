@@ -18,7 +18,8 @@
   attributesfile = ~/.gitattributes
 
 [pager]
-  # insanely beautiful diffs ==> npm install -g diff-so-fancy
+  # The Brewfile installs diff-so-fancy so Git diffs remain readable in large
+  # working trees without depending on a global npm package.
   diff = diff-so-fancy | less --tabs=4 -RFX
   show = diff-so-fancy | less --tabs=4 -RFX
 

@@ -1,9 +1,10 @@
-# The top-most paths override here.
-PATH=/opt/local/bin
-PATH=$PATH:/opt/local/sbin
-PATH=$PATH:/bin
-PATH=$HOME/.homebrew/bin
-PATH=$HOME/.homebrew/sbin:$PATH
-ANDROID_HOME=/Users/brianfryer/.homebrew/opt/android-sdk
+# ~/.extra is for private, machine-local shell settings that should not be
+# committed to this repository. It is sourced before the committed shell
+# fragments, so PATH entries here can intentionally take precedence.
 
+# Example: add a personal scripts directory.
+PATH="$HOME/.local/bin:$PATH"
 export PATH
+
+# Example: keep project or vendor SDKs local to this machine.
+# export CLOUDSDK_CONFIG="$HOME/.config/gcloud"

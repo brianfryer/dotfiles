@@ -1,10 +1,3 @@
-# # pnpm
-# export PNPM_HOME="/Users/brianfryer/Library/pnpm"
-# case ":$PATH:" in
-#   *":$PNPM_HOME:"*) ;;
-#   *) export PATH="$PNPM_HOME:$PATH" ;;
-# esac
-# # pnpm end
-
-# [ -n "$PS1" ] && source ~/.bash_profile
-# # export PATH="$PATH:`yarn global bin`"
+# Bash reads .bashrc for non-login interactive shells. Delegate to
+# .bash_profile so Bash sessions share one source of truth.
+[ -n "$PS1" ] && [ -r "$HOME/.bash_profile" ] && source "$HOME/.bash_profile"

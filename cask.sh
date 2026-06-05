@@ -1,35 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# `brew update && brew upgrade brew-cask && brew cleanup && brew cask cleanup`
+# Compatibility wrapper for `./cask.sh`.
+#
+# GUI applications are now declared in Brewfile using Homebrew's supported app
+# syntax. This wrapper delegates to Brewfile so there is a single application
+# inventory.
 
-brew install caskroom/cask/brew-cask
-brew tap homebrew/cask-drivers
-brew tap caskroom/versions
+cd "$(dirname "$0")"
 
-brew cask install adobe-creative-cloud
-brew cask install bartender
-brew cask install dashlane
-brew cask install divvy
-brew cask install dropbox
-brew cask install filezilla
-brew cask install flux
-brew cask install firefox
-brew cask install github
-brew cask install google-chrome
-brew cask install google-backup-and-sync
-brew cask install google-hangouts
-brew cask install google-nik-collection
-brew cask install homebrew-fonts
-brew cask install iterm2
-brew cask install java
-brew cask install licecap
-brew cask install sequel-pro
-brew cask install skype
-brew cask install slack
-brew cask install sonos
-brew cask install spotify
-brew cask install steam
-brew cask install sublime-text
-brew cask install totalfinder
-brew cask install vagrant
-brew cask install virtualbox
+if ! command -v brew >/dev/null 2>&1; then
+  printf 'Homebrew is not installed or is not on PATH.\n' >&2
+  printf 'Install Homebrew first, then rerun this script.\n' >&2
+  exit 1
+fi
+
+brew bundle --file ./Brewfile
