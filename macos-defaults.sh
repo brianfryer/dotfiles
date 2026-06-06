@@ -52,13 +52,25 @@ log() {
   printf '\n==> %s\n' "$*"
 }
 
+warn() {
+  printf '  [warn] %s\n' "$*" >&2
+}
+
 run() {
+  local output
+
   if [ "$dry_run" = true ]; then
     printf '  '
     printf '%q ' "$@"
     printf '\n'
-  else
-    "$@"
+    return 0
+  fi
+
+  if ! output="$("$@" 2>&1)"; then
+    warn "Skipped setting: $*"
+    if [ -n "$output" ]; then
+      warn "$output"
+    fi
   fi
 }
 
@@ -119,12 +131,9 @@ apply_trackpad_mouse_and_sound_defaults() {
   run defaults write com.apple.systemsound com.apple.sound.beep.volume -float 0
   run defaults write com.apple.systemsound com.apple.sound.uiaudio.enabled -int 0
 
-  # Keep the accessibility zoom gesture available but avoid smoothing pixels.
-  # Nearest-neighbor zoom is useful when inspecting UI pixels or screenshots.
-  run defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-  run defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-  run defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool false
-  run defaults write com.apple.universalaccess closeViewSmoothImages -bool false
+  # Accessibility zoom preferences are controlled by protected macOS state on
+  # current releases. Configure them in System Settings instead of writing the
+  # com.apple.universalaccess domain from this script.
 }
 
 apply_screenshot_and_finder_defaults() {
@@ -193,16 +202,9 @@ apply_dock_and_mission_control_defaults() {
 apply_browser_defaults() {
   log "Browser defaults"
 
-  # Safari privacy and development defaults. These are user-level settings for
-  # built-in apps; they do not install extensions or modify system policy.
-  run defaults write com.apple.Safari UniversalSearchEnabled -bool false
-  run defaults write com.apple.Safari SuppressSearchSuggestions -bool true
-  run defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
-  run defaults write com.apple.Safari HomePage -string about:blank
-  run defaults write com.apple.Safari AutoOpenSafeDownloads -bool false
-  run defaults write com.apple.Safari IncludeDevelopMenu -bool true
-  run defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-  run defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true
+  # Safari stores preferences in a containerized domain on current macOS
+  # releases, and direct writes can be rejected. Keep Safari-specific privacy
+  # and developer settings as manual browser preferences.
   run defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
   # Chrome is part of the Brewfile. Disable accidental trackpad/mouse backswipe

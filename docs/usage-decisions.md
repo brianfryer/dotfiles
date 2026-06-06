@@ -184,6 +184,7 @@ that are not part of the default Brewfile.
 | Area | Draft Status | Rationale | Proposed Action |
 | --- | --- | --- | --- |
 | `.osx` | archive | The script is useful as historical reference but too broad and privileged for default setup. | Move to `archive/osx-legacy.sh`. |
-| User-level defaults | keep | Finder, Dock, keyboard, screenshot, Safari, Chrome, and Activity Monitor preferences are useful and reversible. | Maintain in `macos-defaults.sh` with `--dry-run`. |
+| User-level defaults | keep | Finder, Dock, keyboard, screenshot, Chrome, and Activity Monitor preferences are useful and reversible. | Maintain in `macos-defaults.sh` with `--dry-run`. |
+| Safari and Accessibility defaults | manual | Current macOS releases can reject direct writes to Safari's containerized preferences and the protected Accessibility domain. | Configure these in System Settings or the app UI. |
 | Privileged system settings | manual | Power, NVRAM, Spotlight indexing, Time Machine, and Accessibility writes can be disruptive or macOS-version-sensitive. | Keep out of automated setup unless reintroduced behind explicit flags. |
 | App-specific legacy blocks | remove | GPGMail, Opera, SizeUp, Transmission, Twitter, Spectacle, and Chrome Canary are not part of the current Brewfile. | Leave in the archived script only. |
